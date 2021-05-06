@@ -2,38 +2,44 @@
 # https://dominiquemakowski.github.io/post/simulate_ecg/
 # https://pypi.org/project/neurokit2/
 
-import neurokit2 as nk
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+
+import neurokit2 as nk
 
 data = []
 
 fig = plt.figure()
 line, = plt.plot(data)
 
-data = list(nk.ecg_simulate(duration=4, sampling_rate=100, heart_rate=60))
-data += list(nk.ecg_simulate(duration=4, sampling_rate=100, heart_rate=60))
-data += list(nk.ecg_simulate(duration=4, sampling_rate=100, heart_rate=80))
-data += list(nk.ecg_simulate(duration=4, sampling_rate=100, heart_rate=100))
-data += list(nk.ecg_simulate(duration=4, sampling_rate=100, heart_rate=60))
+sample_rate = 100
+
+data = list(nk.ecg_simulate(duration=4, sampling_rate=sample_rate, heart_rate=60))
+data += list(nk.ecg_simulate(duration=4, sampling_rate=sample_rate, heart_rate=60))
+data += list(nk.ecg_simulate(duration=4, sampling_rate=sample_rate, heart_rate=80))
+data += list(nk.ecg_simulate(duration=4, sampling_rate=sample_rate, heart_rate=100))
+data += list(nk.ecg_simulate(duration=4, sampling_rate=sample_rate, heart_rate=60))
 
 count = 0
 step = int(len(data) / 10)
 
 def update(frame):
-    try:
-        i = count*step
-    except:
-        count = 0
-        i = 0
-    f = (count+1) * step
-    x_data = data[i:f]
+    global count
+    global step
+    i = count*step
 
-    line.set_data(x_data)
+    f = (count+1) * step
+    x_data = np.linspace(i, f, step) / sample_rate
+    y_data = data[i:f]
+
+    line.set_data(x_data, y_data)
     fig.gca().relim()
     fig.gca().autoscale_view()
 
     count += 1
+    if count*step >= len(data):
+        count = 0
     return line,
 
 animation = FuncAnimation(fig, update, interval=1000)
