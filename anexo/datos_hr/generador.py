@@ -13,7 +13,7 @@ line, = plt.plot(data)
 def update(frame):
     now = datetime.now()
 
-    conn = sqlite3.connect('hr.db')
+    conn = sqlite3.connect('hr_neurokit.db')
     c = conn.cursor()
 
     slots = [now.second -i for i in reversed(range(5))]
@@ -47,13 +47,3 @@ def update(frame):
 animation = FuncAnimation(fig, update, interval=1000)
 
 plt.show()
-
-
-
-
-
-
-#plt.plot(data)
-#plt.show()
-
-#nk.signal_plot(simulated_ecg, sampling_rate=200)  # Visualize the signal

@@ -7,13 +7,13 @@ Web: [Inove](http://inove.com.ar)
 En este repositorio encontrarán los siguientes archivos:
 
 __Ejemplos que el profesor mostrará en clase__\
-ejemplos_clase.py
+ejemplos_clase/
 
 __Ejercicios para que el alumno desarrolle lo visto en clase__\
 ejercicios_practica.py
 
 __Ejercicios para que el alumno profundice sobre el tema durante la semana__\
-ejercicio_meli.md
+ejercicio_profundizacion.md
 
 # Consultas
 alumnos@inove.com.ar
