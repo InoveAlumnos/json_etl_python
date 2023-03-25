@@ -19,7 +19,10 @@ import json
 
 def json_create():
     # Ejemplos de como se construyen los JSON
-    max_json = {
+
+    # Creamos un diccionario
+    # con los datos de persona max:
+    max_data = {
               "nombre": "Max",
               "apellido": "Power",
               "hijos": [
@@ -34,33 +37,68 @@ def json_create():
                     ]
               }
 
-    emma_json = {
+    # Creamos un diccionario
+    # con los datos de persona emma:
+    emma_data = {
                  "nombre": "Emma",
                  "apellido": "Thompson",
                  "hijos": []
                  }
 
-    json_test = {"max": max_json, "emma": emma_json}
+    print('Imprimir el diccionario de emma')
+    print(emma_data)
 
-    print('Imprimir json como un objeto')
-    print(emma_json)
+    # dumps --> 
+    #           Dump significa "serializar" o transformar
+    #           La "s" de dumps viene de string
+    #           Permite convertir un diccionario a JSON String
+    
+    # Transformar a JSON string con identación 4 (ident=4)
+    print('Convertir el dicicionario a JSON string e imprimir en pantalla')
+    emma_json_string = json.dumps(emma_data, indent=4)
+    print(emma_json_string)
 
-    print('Convertir JSON a json_string e imprimir en pantalla')
-    json_string = json.dumps(emma_json, indent=4)
-    print(json_string)
+    max_json_string = json.dumps(max_data, indent=4)
+    print(max_json_string)
 
-    print('Imprimir json como un objeto')
-    print(json_test)
+    # Creamos un diccionario que contiene la información
+    # de ambas personas en conjunto
+    personas = {"max": max_data, "emma": emma_data}
 
-    print('Convertir JSON a json_string e imprimir en pantalla')
-    json_string = json.dumps(json_test, indent=4)
-    print(json_string)
+    print('Imprimir el diccionario conjunto de max + emma')
+    print(personas)
+
+    print('Convertir el diccionario a JSON string e imprimir en pantalla')
+    personas_json_string = json.dumps(personas, indent=4)
+    print(personas_json_string)
+
+    # Podemos realizar el proceso inverso
+    # A partir de un JSON string podemos crear un diccionario
+    # de python para modificarlo / operarlo
+
+    # loads --> 
+    #           Load significa "deserializar" o destransformar
+    #           La "s" de loads viene de string
+    #           Permite convertir un JSON String a diccionario
+    print('Convertir un JSON string a diccionario')
+    hermano_max = json.loads(max_json_string)
+
+    # Ahora podemos modificar el diccionario del hermano max
+    # Por ejemplo, podemos modificar su nombre
+    hermano_max["nombre"] = "Luke"
+
+    # Podemos decir que el hermano de max (Luke)
+    # no tiene hijos colocando una lista vacia de hijos
+    hermano_max["hijos"] = []
+
+    print("terminamos")
 
 
 def json_serialize():
-    # Generar un json y almacenarlo en archivo (dump)
+    # Generar un diccionario y almacenarlo
+    # en un archivo JSON (dump)
 
-    estudiante1 = {
+    estudiante = {
                   "nombre": "Max",
                   "apellido": "Power",
                   "materias": [
@@ -75,40 +113,67 @@ def json_serialize():
                       ]
                    }
 
-    with open('mi_json.json', 'w') as jsonfile:
-        data = [estudiante1]
-        json.dump(data, jsonfile, indent=4)
+    # Para poder almacenar el diccionario en un archivo JSON
+    # 1) Primero debemos crear el archivo JSON con open
+    # 2) Utilizar dump para indicarle que diccionario (estudiante)
+    #    deseamos guardar en nuestra variable archivo (jsonfile)
+    with open('estudiante.json', 'w') as jsonfile:
+        json.dump(estudiante, jsonfile, indent=4)
+
+    print("terminamos")
 
 
 def json_deserialize():
-    # Leer json y actualizarlo
-    estudiante2 = {
-                  "nombre": "Jean",
-                  "apellido": "Gray",
-                  "materias": [
-                      {
-                       "asignatura": "matematica",
-                       "estado": "finalizado"
-                      },
-                      {
-                       "asignatura": "lengua",
-                       "estado": "finalizado"
-                      }
-                      ]
-                   }
+    # Leer un archivo JSON y actualizarlo
 
-    with open('mi_json.json', 'r') as jsonfile:
-        current_data = json.load(jsonfile)
-        current_data.append(estudiante2)
+    # Para poder leer el diccionario en un archivo JSON
+    # 1) Primero debemos abrir el archivo JSON con open
+    # 2) Utilizar load para indicarle que archivo (jsonfile)
+    #    deseamos leer
+    with open('estudiante.json', 'r') as jsonfile:
+        estudiante = json.load(jsonfile)
 
-    with open('mi_json.json', 'w') as jsonfile:
-        json.dump(current_data, jsonfile, indent=4)
+    # Ahora todo el contenido del archivo JSON está en "estudiante"
+    # Podemos modiicarlo, por ejemplo indicando
+    # que ha completado la asignatura de matematica pendiente
 
-    with open('mi_json.json', 'r') as jsonfile:
-        json_data = json.load(jsonfile)
+    # Para eso tenemos que entender como está armada
+    # la estructura de datos del diccionario "estudiante"
 
-    print('Mostrar el contenido del archivo mi_json')
-    print(json.dumps(json_data, indent=4))
+    print('Imprimir el diccionario estudiante como un JSON String')
+    estudiante_json_string = json.dumps(estudiante, indent=4)
+    print(estudiante_json_string)
+
+    # Si deseamos modificar la el estado asignatura metemática
+    # debemos acceder a la estructura de datos paso a paso
+    # desde lo más afuera del diccionario hasta su interior
+
+    # Obserando el print en consola o 
+    # con el debugging podemos ver:
+    # 1) Primero debemos acceder a la clave "materias",
+    #    Esto nos retorna como "value" una lista de materias
+    # 2) Accedemos a la posición "0" de la lista,
+    #    que corresponde a la materia "matematica"
+    #    Esto nos retorna otro diccionario
+    # 3) Accedemos a la calve "estado" para modificar
+    #    el valor a finalizado
+
+    estudiante["materias"][0]["estado"] = "finalizado"
+
+    # Ahora que el diccionario estudiante está modificado
+    # podemos guardarlo en el mismo archivo de antes
+
+
+    # Para poder almacenar el diccionario en un archivo JSON
+    # 1) Primero debemos crear el archivo JSON con open
+    # 2) Utilizar dump para indicarle que diccionario (estudiante)
+    #    deseamos guardar en nuestra variable archivo (jsonfile)
+    with open('estudiante.json', 'w') as jsonfile:
+        json.dump(estudiante, jsonfile, indent=4)
+
+    print("¡Archivo JSON modificado!")
+    print("terminamos")
+
 
 
 if __name__ == '__main__':
