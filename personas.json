@@ -1,0 +1,44 @@
+{
+    "personas": [
+        {
+            "nombre": "Santiago",
+            "edad": 32
+        },
+        {
+            "nombre": "Luz",
+            "edad": 26
+        },
+        {
+            "nombre": "Fernando",
+            "edad": 45
+        },
+        {
+            "nombre": "Carmen",
+            "edad": 39
+        },
+        {
+            "nombre": "Jorge",
+            "edad": 21
+        },
+        {
+            "nombre": "Ana",
+            "edad": 28
+        },
+        {
+            "nombre": "Diego",
+            "edad": 36
+        },
+        {
+            "nombre": "María",
+            "edad": 30
+        },
+        {
+            "nombre": "Pedro",
+            "edad": 42
+        },
+        {
+            "nombre": "Valentina",
+            "edad": 19
+        }
+    ]
+}
